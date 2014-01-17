@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |spec|
   spec.name          = "cucumber-helpers"
-  spec.version       =  ::FILE.read("VERSION")
+  spec.version       =  ::File.read("VERSION")
   spec.authors       = ["Greg Beech","JP Hastings-Spital"]
   spec.email         = ["greg@blinkbox.com","jphastings@blinkbox.com"]
   spec.description   = %q{Helpers for step definitions in cucumber.}
