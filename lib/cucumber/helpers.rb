@@ -1,7 +1,6 @@
-require "cucumber/helpers/version"
-
 module Cucumber
   module Helpers
-    # Your code goes here...
+    VERSION = ::File.read(File.join(File.dirname(__FILE__),"../../VERSION"))
+    
   end
 end
