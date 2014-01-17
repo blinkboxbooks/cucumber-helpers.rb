@@ -1,16 +1,15 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'cucumber/helpers/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "cucumber-helpers"
-  spec.version       = Cucumber::Helpers::VERSION
-  spec.authors       = ["JP Hastings-Spital"]
-  spec.email         = ["jphastings@blinkbox.com"]
-  spec.description   = %q{TODO: Write a gem description}
-  spec.summary       = %q{TODO: Write a gem summary}
-  spec.homepage      = ""
+  spec.version       =  ::FILE.read("VERSION")
+  spec.authors       = ["Greg Beech","JP Hastings-Spital"]
+  spec.email         = ["greg@blinkbox.com","jphastings@blinkbox.com"]
+  spec.description   = %q{Helpers for step definitions in cucumber.}
+  spec.summary       = %q{Helpers for cucumber.}
+  spec.homepage      = "https://blinkboxbooks.github.io/"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
