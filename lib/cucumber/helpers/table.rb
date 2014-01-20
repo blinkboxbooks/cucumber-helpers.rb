@@ -24,7 +24,14 @@ class Cucumber::Ast::Table
   def attribute_hash(casing: :camel_case)
     hashes.each_with_object({}) do |row, hash|
       name = row["attribute"].gsub(/: /, ".").send(casing)
-      value = row["value"].to_type(row["type"].constantize)
+      if row["type"].match(/^\[(.*)\]$/)
+        type = $1.constantize
+        value = row["value"].split(/,\ ?/).collect do |subvalue|
+          subvalue.to_type(type)
+        end
+      else
+        value = row["value"].to_type(row["type"].constantize)
+      end
       hash.deep_set(name, value)
     end
   end
