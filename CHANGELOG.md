@@ -4,7 +4,7 @@
 
 ### New Features
 
-* Added can now specify array types with `List of Numbers` or `List of Strings` in the type column
+* Added can now specify array types with `List of <type>s`, for example `List of Integers` or `List of Strings`.
 
 ## 0.0.2 (2014-01-20 11:14)
 
