@@ -22,17 +22,27 @@ class Cucumber::Ast::Table
   # Any other columns in the table will be ignored, so you can have other columns in the table for
   # different purposes, e.g. "description" is a fairly useful column purely for documentation.
   def attribute_hash(casing: :camel_case)
+    class_only = !raw.first.include?('value')
     hashes.each_with_object({}) do |row, hash|
       name = row["attribute"].gsub(/: /, ".").send(casing)
-      if row["type"].match(/^List of (.*)$/)
-        type = $1.singularize.constantize
-        value = row["value"].split(/\s*,\s*/).collect do |subvalue|
-          subvalue.to_type(type)
-        end
-      else
-        value = row["value"].to_type(row["type"].constantize)
+      hash.deep_set(name, value_from_row(row, class_only))
+    end
+  end
+
+  private
+
+  def value_from_row(row, class_only)
+    list_of = row["type"].match(/^List of (.*)$/)
+    type = list_of ? [$1.singularize.constantize] : row["type"].constantize
+
+    return type if class_only
+
+    if list_of
+      row["value"].split(/\s*,\s*/).collect do |subvalue|
+        subvalue.to_type(type.first)
       end
-      hash.deep_set(name, value)
+    else
+      row["value"].to_type(type)
     end
   end
 end
