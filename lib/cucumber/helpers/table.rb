@@ -10,7 +10,9 @@ class Cucumber::Ast::Table
   #   to an attribute like `{ "address": { "line1": ... } }`.
   #
   # value::
-  #   The value of the attribute, which will be interpreted according to the specified type.
+  #   If provided this defines value of the attribute, cast according to the `type` specified. If
+  #   not provided the value of the corresponding hash key will be the class constant of the `type`
+  #   specified, or an array containing the class constant in the case of a 'List of' type.
   #
   # type::
   #   The type of the attribute. This is used both as documentation of the type of the attribute
@@ -19,20 +21,34 @@ class Cucumber::Ast::Table
   #   as a string, but convert it to the appropriate case, e.g. a value of "Sales Rank" will be
   #   formatted as "SALES_RANK" inkeeping with enumeration conventions.
   #
+  #   If the `type` is given as "List of <Type>", the `value` is assumed to be a comma delimited
+  #   list of items of the "<Type>" specified and is emitted as an array of typecast objects.
+  #   White space either side of commas is stripped.
+  #
   # Any other columns in the table will be ignored, so you can have other columns in the table for
   # different purposes, e.g. "description" is a fairly useful column purely for documentation.
   def attribute_hash(casing: :camel_case)
+    class_only = !raw.first.include?('value')
     hashes.each_with_object({}) do |row, hash|
       name = row["attribute"].gsub(/: /, ".").send(casing)
-      if row["type"].match(/^List of (.*)$/)
-        type = $1.singularize.constantize
-        value = row["value"].split(/\s*,\s*/).collect do |subvalue|
-          subvalue.to_type(type)
-        end
-      else
-        value = row["value"].to_type(row["type"].constantize)
+      hash.deep_set(name, value_from_row(row, class_only))
+    end
+  end
+
+  private
+
+  def value_from_row(row, class_only)
+    list_of = row["type"].match(/^List of (?<type>.*)$/)
+    type = (list_of ? [list_of[:type].singularize] : row["type"]).constantize
+
+    return type if class_only
+
+    if list_of
+      row["value"].split(/\s*,\s*/).collect do |subvalue|
+        subvalue.to_type(type.first)
       end
-      hash.deep_set(name, value)
+    else
+      row["value"].to_type(type)
     end
   end
 end

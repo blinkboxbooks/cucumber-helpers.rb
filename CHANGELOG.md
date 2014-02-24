@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.4 (2014-02-24 10:59)
+
+### New Features
+
+* `Cucumber::Ast::Table`'s `.attribute_hash` will now return a hash with values set to the class type specified if no value column is given in the table.
+
 ## 0.0.3 (2014-01-20 17:09)
 
 ### New Features
