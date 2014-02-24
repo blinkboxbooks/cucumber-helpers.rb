@@ -10,7 +10,9 @@ class Cucumber::Ast::Table
   #   to an attribute like `{ "address": { "line1": ... } }`.
   #
   # value::
-  #   The value of the attribute, which will be interpreted according to the specified type.
+  #   If provided this defines value of the attribute, cast according to the `type` specified. If
+  #   not provided the value of the corresponding hash key will be the class constant of the `type`
+  #   specified, or an array containing the class constant in the case of a 'List of' type.
   #
   # type::
   #   The type of the attribute. This is used both as documentation of the type of the attribute
@@ -18,6 +20,10 @@ class Cucumber::Ast::Table
   #   As well as built-in types, you can use the special type "Enum" which will represent the value
   #   as a string, but convert it to the appropriate case, e.g. a value of "Sales Rank" will be
   #   formatted as "SALES_RANK" inkeeping with enumeration conventions.
+  #
+  #   If the `type` is given as "List of <Type>", the `value` is assumed to be a comma delimited
+  #   list of items of the "<Type>" specified and is emitted as an array of typecast objects.
+  #   White space either side of commas is stripped.
   #
   # Any other columns in the table will be ignored, so you can have other columns in the table for
   # different purposes, e.g. "description" is a fairly useful column purely for documentation.
@@ -32,8 +38,8 @@ class Cucumber::Ast::Table
   private
 
   def value_from_row(row, class_only)
-    list_of = row["type"].match(/^List of (.*)$/)
-    type = list_of ? [$1.singularize.constantize] : row["type"].constantize
+    list_of = row["type"].match(/^List of (?<type>.*)$/)
+    type = (list_of ? [list_of[:type].singularize] : row["type"]).constantize
 
     return type if class_only
 
