@@ -1,4 +1,4 @@
-source 'https://rubygems.org'
+source "http://artifactory.blinkbox.local/artifactory/api/gems/bbb-gems/"
+source "http://artifactory.blinkbox.local/artifactory/api/gems/rubygems/"
 
-# Specify your gem's dependencies in cucumber-helpers.gemspec
 gemspec
