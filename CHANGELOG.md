@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.5 ([#7](https://git.mobcastdev.com/TEST/cucumber-helpers/pull/7) 2014-06-30 17:17:06)
+
+Move to artifactory
+
+### Improvement
+
+- Move to artifactory.
+
 ## 0.0.4 (2014-02-24 10:59)
 
 ### New Features
