@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.6 ([#8](https://git.mobcastdev.com/TEST/cucumber-helpers/pull/8) 2014-08-05 13:59:05)
+
+Fix contantize
+
+### Bug fix
+
+- Fixes an issue with the constantization of types which are "List of <whatever>".
+
 ## 0.0.5 ([#7](https://git.mobcastdev.com/TEST/cucumber-helpers/pull/7) 2014-06-30 17:17:06)
 
 Move to artifactory
