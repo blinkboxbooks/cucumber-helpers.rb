@@ -1,3 +1,5 @@
+require "active_support/inflector"
+
 class Cucumber::Ast::Table
   # Converts a table of attributes to a hash.
   #
@@ -39,13 +41,13 @@ class Cucumber::Ast::Table
 
   def value_from_row(row, class_only)
     list_of = row["type"].match(/^List of (?<type>.*)$/)
-    type = (list_of ? [list_of[:type].singularize] : row["type"]).constantize
+    type = (list_of ? list_of[:type].singularize : row["type"]).constantize
 
     return type if class_only
 
     if list_of
       row["value"].split(/\s*,\s*/).collect do |subvalue|
-        subvalue.to_type(type.first)
+        subvalue.to_type(type)
       end
     else
       row["value"].to_type(type)
