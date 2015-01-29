@@ -1,0 +1,13 @@
+language: ruby
+rvm:
+  - 2.0.0
+  - 2.1.2
+deploy:
+  provider: rubygems
+  api_key:
+    secure: Rgk1OIlooKQ6rp3T+LSC8ZTU4/p/oNxE0rx///j1xVIm2b+oJN8SuHJmpthPe21FP+N5F3NIIEwsdY93CpqJPv0pXJDrkU1dC370SjPNTwpnDqPLiarXIz4vev7G5laOHbRsN5UY9n8qeIreBOTwiAxFmUbOLPJRlHRtUOE1n7Q=
+  gem: cucumber-helpers
+  on:
+    repo: blinkboxbooks/cucumber-helpers.rb
+    rvm: 2.1.2
+    branch: master
